@@ -1148,17 +1148,13 @@ func (r *Consumer) exit() {
 }
 
 func (r *Consumer) log(lvl LogLevel, line string, args ...interface{}) {
-	logger, logLvl := r.getLogger()
+	logger, _ := r.getLogger()
 
 	if logger == nil {
 		return
 	}
 
-	if logLvl > lvl {
-		return
-	}
-
-	logger.Output(2, fmt.Sprintf("%-4s %3d [%s/%s] %s",
+	logger.Output(int(lvl), fmt.Sprintf("%-4s %3d [%s/%s] %s",
 		lvl, r.id, r.topic, r.channel,
 		fmt.Sprintf(line, args...)))
 }
