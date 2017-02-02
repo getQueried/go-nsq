@@ -707,17 +707,13 @@ func (c *Conn) onMessageTouch(m *Message) {
 }
 
 func (c *Conn) log(lvl LogLevel, line string, args ...interface{}) {
-	logger, logLvl, logFmt := c.getLogger()
+	logger, _, logFmt := c.getLogger()
 
 	if logger == nil {
 		return
 	}
 
-	if logLvl > lvl {
-		return
-	}
-
-	logger.Output(2, fmt.Sprintf("%-4s %s %s", lvl,
+	logger.Output(int(lvl), fmt.Sprintf("%-4s %s %s", lvl,
 		fmt.Sprintf(logFmt, c.String()),
 		fmt.Sprintf(line, args...)))
 }

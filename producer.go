@@ -369,17 +369,13 @@ func (w *Producer) transactionCleanup() {
 }
 
 func (w *Producer) log(lvl LogLevel, line string, args ...interface{}) {
-	logger, logLvl := w.getLogger()
+	logger, _ := w.getLogger()
 
 	if logger == nil {
 		return
 	}
 
-	if logLvl > lvl {
-		return
-	}
-
-	logger.Output(2, fmt.Sprintf("%-4s %3d %s", lvl, w.id, fmt.Sprintf(line, args...)))
+	logger.Output((lvl), fmt.Sprintf("%-4s %3d %s", lvl, w.id, fmt.Sprintf(line, args...)))
 }
 
 func (w *Producer) onConnResponse(c *Conn, data []byte) { w.responseChan <- data }
